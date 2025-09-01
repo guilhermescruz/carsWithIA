@@ -1,0 +1,150 @@
+/* Variáveis globais específicas para botões e cards */
+:root {
+  /* Cores principais */
+  --color-btn-primary: #0096c7;
+  --color-btn-primary-hover: #108eb8;
+
+  --color-btn-danger: #d9534f;
+  --color-btn-danger-hover: #d2221c;
+
+  --color-btn-secondary: #6c757d;
+  --color-btn-secondary-hover: #5a6268;
+
+  --color-card-bg: #fff;
+  --color-card-border: #e1e5e9;
+  --color-card-header-bg: #f8f9fa;
+  --color-card-title: #333;
+  --color-card-text: #666;
+
+  --color-error: #d9534f;
+
+  --radius: 8px;
+  --transition: all 0.3s ease-in-out;
+}
+
+/* Container de botões */
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+/* Botões */
+.btn {
+  display: inline-block;
+  background-color: var(--color-btn-primary);
+  color: var(--color-white);
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background-color: var(--color-btn-primary-hover);
+}
+
+.btn-danger {
+  background-color: var(--color-btn-danger);
+}
+
+.btn-danger:hover {
+  background-color: var(--color-btn-danger-hover);
+}
+
+.btn-secondary {
+  background-color: var(--color-btn-secondary);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-btn-secondary-hover);
+}
+
+/* Mensagens de erro */
+.error-message {
+  color: var(--color-error);
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+/* Card */
+.card {
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.card-header {
+  background-color: var(--color-card-header-bg);
+  border-bottom: 1px solid var(--color-card-border);
+  padding: 20px;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-card-title);
+  text-align: center;
+}
+
+.card-body {
+  padding: 30px;
+  text-align: center;
+}
+
+.card-body p {
+  font-size: 1.1rem;
+  color: var(--color-card-text);
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.card-body strong {
+  color: var(--color-card-title);
+  font-weight: 600;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .card {
+    margin: 10px;
+    max-width: none;
+  }
+  
+  .card-header,
+  .card-body {
+    padding: 20px 15px;
+  }
+  
+  .buttons-container {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .btn {
+    margin: 0;
+    min-width: 150px;
+  }
+  
+  .card-body p {
+    font-size: 1rem;
+  }
+  
+  .card-title {
+    font-size: 1.3rem;
+  }
+}

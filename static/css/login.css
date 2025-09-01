@@ -1,0 +1,196 @@
+/* Variáveis globais */
+:root {
+  /* Cores */
+  --color-primary: #0096c7;
+  --color-primary-hover: #108eb8;
+  --color-white: #fff;
+  --color-text: #333;
+  --color-text-secondary: #666;
+  --color-input-bg: #f8f9fa;
+  --color-input-border: #e1e5e9;
+  --color-error-bg: #ffe6e6;
+  --color-error-text: #d9534f;
+
+  /* Borda e radius */
+  --radius: 6px;
+  --radius-form: 10px;
+
+  /* Sombras */
+  --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.1);
+  --shadow-focus: 0 0 0 3px rgba(0, 150, 199, 0.1);
+
+  /* Transição */
+  --transition: all 0.3s ease;
+}
+
+/* Container do formulário de login */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  padding: 20px;
+}
+
+/* Formulário de login */
+.login-form {
+  background-color: var(--color-white);
+  padding: 40px;
+  border-radius: var(--radius-form);
+  box-shadow: var(--shadow-light);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-form h2 {
+  text-align: center;
+  color: var(--color-primary);
+  margin-bottom: 30px;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+/* Grupos de formulário */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--color-text);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* Campos de entrada */
+.form-group input[type="text"],
+.form-group input[type="password"] {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid var(--color-input-border);
+  border-radius: var(--radius);
+  font-size: 16px;
+  transition: var(--transition);
+  background-color: var(--color-input-bg);
+  box-sizing: border-box;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-focus);
+}
+
+/* Botão de submit */
+.form-group input[type="submit"] {
+  width: 100%;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 10px;
+}
+
+.form-group input[type="submit"]:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+}
+
+/* Mensagens de erro */
+.form-group .errorlist {
+  list-style: none;
+  padding: 0;
+  margin: 5px 0 0 0;
+}
+
+.form-group .errorlist li {
+  background-color: var(--color-error-bg);
+  color: var(--color-error-text);
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  margin-bottom: 5px;
+  border-left: 3px solid var(--color-error-text);
+}
+
+/* Mensagens gerais de erro do Django */
+.login-form .errorlist {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.login-form .errorlist li {
+  background-color: var(--color-error-bg);
+  color: var(--color-error-text);
+  padding: 12px 15px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  margin-bottom: 10px;
+  border-left: 3px solid var(--color-error-text);
+  text-align: center;
+}
+
+/* Link para cadastro */
+.register-link {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-input-border);
+}
+
+.register-link p {
+  color: var(--color-text-secondary);
+  margin-bottom: 10px;
+}
+
+.register-link a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.register-link a:hover {
+  color: var(--color-primary-hover);
+  text-decoration: underline;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 10px;
+    min-height: 60vh;
+  }
+
+  .login-form {
+    padding: 30px 20px;
+    margin: 10px;
+  }
+
+  .login-form h2 {
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-form {
+    padding: 25px 15px;
+  }
+
+  .form-group input[type="text"],
+  .form-group input[type="password"],
+  .form-group input[type="submit"] {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+}

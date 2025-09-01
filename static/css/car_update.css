@@ -1,0 +1,127 @@
+/* Variáveis globais para formulários e botões */
+:root {
+  /* Cores */
+  --color-form-bg: #f5f5f5;
+  --color-form-border: #ddd;
+  --color-form-border-focus: #0096c7;
+  --color-btn-primary: #0096c7;
+  --color-btn-primary-hover: #108eb8;
+  --color-btn-danger: #d9534f;
+  --color-btn-danger-hover: #d2221c;
+  --color-error: #d9534f;
+  --color-th-bg: #f2f2f2;
+  --color-text: #333;
+  --color-input-text: #000;
+
+  /* Borda, radius e sombras */
+  --radius: 10px;
+  --shadow-light: 0 2px 6px rgba(0, 0, 0, 0.2);
+
+  /* Transição */
+  --transition: all 0.3s ease-in-out;
+}
+
+/* Formulário */
+form {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: var(--color-form-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-light);
+}
+
+form h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: var(--color-text);
+}
+
+/* Tabela */
+table {
+  margin: 0 auto;
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 600px;
+}
+
+th, td {
+  padding: 4px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-form-border);
+}
+
+th {
+  background-color: var(--color-th-bg);
+}
+
+/* Inputs e selects */
+input[type="text"], 
+input[type="number"], 
+select, 
+textarea {
+  padding: 8px;
+  font-size: 14px;
+  border: 2px solid var(--color-form-border);
+  border-radius: 4px;
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 8px;
+  transition: border-bottom-color 0.3s ease-in-out;
+  color: var(--color-input-text);
+}
+
+input[type="text"]:focus, 
+input[type="number"]:focus, 
+select:focus, 
+textarea:focus {
+  outline: none;
+  border-bottom-color: var(--color-form-border-focus);
+}
+
+/* Botões */
+.btn {
+  display: inline-block;
+  background-color: var(--color-btn-primary);
+  color: var(--color-white);
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background-color: var(--color-btn-primary-hover);
+}
+
+.btn-danger {
+  background-color: var(--color-btn-danger);
+}
+
+.btn-danger:hover {
+  background-color: var(--color-btn-danger-hover);
+}
+
+/* Container de botões */
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+/* Mensagens de erro */
+.error-message {
+  color: var(--color-error);
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* Links */
+a {
+  text-decoration: none !important;
+}

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Carros Disponíveis - G1TECH Multimarcas{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/cars.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <!-- Header da página -->
+  <div class="page-header">
+    <h1>🚗 Nossos Carros</h1>
+    <p>Encontre o carro perfeito para você</p>
+  </div>
+
+  <!-- Container de busca -->
+  <div class="search-container">
+    <form method="GET" action="{% url 'cars_list' %}" class="search-form">
+      <input 
+        type="text" 
+        name="search" 
+        value="{{ request.GET.search }}"
+        placeholder="🔍 Digite marca, modelo ou ano..." 
+        class="search-input"
+      />
+      <button type="submit" class="search-btn">Buscar</button>
+    </form>
+  </div>
+
+  <!-- Seção dos carros -->
+  <div class="cars-section">
+    {% if request.GET.search %}
+      <h2 class="section-title">
+        {% if cars %}
+          Resultados para "{{ request.GET.search }}" ({{ cars|length }} encontrado{{ cars|length|pluralize }})
+        {% else %}
+          Nenhum resultado para "{{ request.GET.search }}"
+        {% endif %}
+      </h2>
+    {% else %}
+      <h2 class="section-title">Todos os Carros Disponíveis</h2>
+    {% endif %}
+
+    <div class="car-grid">
+      {% if cars %}
+        {% for car in cars %}
+          <a href="{% url 'car_detail' car.pk %}" class="car-link">
+            <div class="car-card">
+              <div class="car-image-container">
+                {% if car.photo %}
+                  <img src="{{ car.photo.url }}" alt="{{ car.model }} - {{ car.brand }}" />
+                {% else %}
+                  <img src="/media/cars/indisponivel.webp" alt="Imagem indisponível" />
+                {% endif %}
+                <div class="price-badge">R$ {{ car.value|floatformat:2 }}</div>
+              </div>
+              
+              <div class="car-content">
+                <h2>{{ car.brand }} {{ car.model }}</h2>
+                <div class="car-info">
+                  <span class="car-year">{{ car.factory_year }}</span>
+                </div>
+              </div>
+            </div>
+          </a>
+        {% endfor %}
+      {% else %}
+        <div class="no-results">
+          <div class="no-results-icon">🚗</div>
+          {% if request.GET.search %}
+            <h3>Nenhum carro encontrado</h3>
+            <p>Não encontramos carros que correspondam à sua busca "{{ request.GET.search }}"</p>
+            <a href="{% url 'cars_list' %}" class="no-results-btn">Ver todos os carros</a>
+          {% else %}
+            <h3>Nenhum carro cadastrado</h3>
+            <p>Ainda não há carros disponíveis no momento</p>
+            {% if user.is_authenticated %}
+              <a href="{% url 'new_car' %}" class="no-results-btn">Cadastrar primeiro carro</a>
+            {% endif %}
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+
+{% endblock %}

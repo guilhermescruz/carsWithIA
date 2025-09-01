@@ -1,0 +1,175 @@
+/* Variáveis globais para cards e botões */
+:root {
+  /* Cores */
+  --color-car-card-bg: #e3e1e1;
+  --color-car-card-text: #555;
+  --color-car-card-title: #333;
+  --color-no-image-bg: #ddd;
+  --color-no-image-text: #666;
+
+  --color-btn-primary: #0096c7;
+  --color-btn-primary-hover: #108eb8;
+
+  --color-btn-danger: #d9534f;
+  --color-btn-danger-hover: #d2221c;
+
+  --color-btn-secondary: #6c757d;
+  --color-btn-secondary-hover: #5a6268;
+
+  --color-error: #d9534f;
+
+  /* Borda e sombras */
+  --radius: 10px;
+  --shadow-light: 0 2px 6px rgba(0, 0, 0, 0.2);
+  --shadow-hover: 0 4px 10px rgba(0, 0, 0, 0.4);
+
+  /* Transição */
+  --transition: all 0.3s ease;
+}
+
+/* Card do carro */
+.car-card {
+  background-color: var(--color-car-card-bg);
+  box-shadow: var(--shadow-light);
+  border-radius: var(--radius);
+  overflow: hidden;
+  text-align: center;
+  transition: var(--transition);
+  max-width: 500px;
+  margin: 20px auto 20px;
+}
+
+.car-card:hover {
+  cursor: pointer;
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-2px);
+}
+
+.car-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.car-card h2 {
+  font-size: 1.5rem;
+  margin: 10px;
+  color: var(--color-car-card-title);
+}
+
+.car-card p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: var(--color-car-card-text);
+  padding: 0 15px;
+}
+
+.car-card p strong {
+  color: var(--color-car-card-title);
+}
+
+/* Container dos botões */
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Botões gerais */
+.btn {
+  display: inline-block;
+  background-color: var(--color-btn-primary);
+  color: var(--color-white);
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none !important;
+  margin: 5px;
+}
+
+.btn:hover {
+  background-color: var(--color-btn-primary-hover);
+}
+
+.btn-danger {
+  background-color: var(--color-btn-danger);
+}
+
+.btn-danger:hover {
+  background-color: var(--color-btn-danger-hover);
+}
+
+.btn-secondary {
+  background-color: var(--color-btn-secondary);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-btn-secondary-hover);
+}
+
+/* Mensagens de erro */
+.error-message {
+  color: var(--color-error);
+  font-size: 14px;
+  margin-top: 5px;
+  text-align: center;
+}
+
+/* Links */
+a {
+  text-decoration: none !important;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .car-card {
+    max-width: 90%;
+    margin: 10px auto;
+  }
+  
+  .buttons-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn {
+    width: 200px;
+    margin: 5px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .car-card {
+    margin: 10px;
+    max-width: calc(100% - 20px);
+  }
+  
+  .car-card img {
+    height: 150px;
+  }
+  
+  .car-card h2 {
+    font-size: 1.3rem;
+  }
+  
+  .car-card p {
+    font-size: 0.9rem;
+  }
+}
+
+/* Imagem de fallback quando não há foto */
+.car-card .no-image {
+  width: 100%;
+  height: 200px;
+  background-color: var(--color-no-image-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-no-image-text);
+  font-size: 16px;
+}

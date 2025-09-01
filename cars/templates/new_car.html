@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Cadastrar Carro - G1TECH Multimarcas{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/new_car.css' %}" />
+{% endblock %}
+
+{% block content %}
+  <div class="car-form-container">
+    <div class="car-form">
+      <h2>Cadastrar Novo Carro</h2>
+      
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-group">
+          {{ form.brand.errors }}
+          <label for="id_brand">Marca:</label>
+          {{ form.brand }}
+        </div>
+        
+        <div class="form-group">
+          {{ form.model.errors }}
+          <label for="id_model">Modelo:</label>
+          {{ form.model }}
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            {{ form.factory_year.errors }}
+            <label for="id_factory_year">Ano de Fabricação:</label>
+            {{ form.factory_year }}
+          </div>
+          
+          <div class="form-group">
+            {{ form.model_year.errors }}
+            <label for="id_model_year">Ano do Modelo:</label>
+            {{ form.model_year }}
+          </div>
+        </div>
+        
+        <div class="form-group">
+          {{ form.plate.errors }}
+          <label for="id_plate">Placa:</label>
+          {{ form.plate }}
+        </div>
+        
+        <div class="form-group">
+          {{ form.value.errors }}
+          <label for="id_value">Valor (R$):</label>
+          {{ form.value }}
+        </div>
+        
+        <div class="form-group">
+          {{ form.photo.errors }}
+          <label for="id_photo">Foto do Carro:</label>
+          {{ form.photo }}
+        </div>
+        
+        <!-- Se houver campo de descrição, adicione aqui -->
+        {% comment %}
+        <div class="form-group">
+          {{ form.description.errors }}
+          <label for="id_description">Descrição:</label>
+          {{ form.description }}
+        </div>
+        {% endcomment %}
+        
+        <div class="form-buttons">
+          <a href="{% url 'cars_list' %}" class="btn-secondary">Cancelar</a>
+          <button type="submit" class="btn-primary">Cadastrar Carro</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

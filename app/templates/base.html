@@ -1,0 +1,132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt_br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %}</title>
+    
+    <!-- CSS base do projeto -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    
+    <!-- Bloco para CSS específicos de cada página -->
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body>
+    <div class="main-container">
+      
+      <!-- Menu Lateral -->
+      {% if user.is_authenticated %}
+        <aside class="sidebar">
+          <!-- Header do Sidebar -->
+          <div class="sidebar-header">
+            <h2>🚗 G1TECH</h2>
+            <p>Multimarcas</p>
+          </div>
+
+          <!-- Saudação do usuário -->
+          <div class="user-greeting">
+            <div class="user-name">{{ user.username }}</div>
+            <div class="user-role">Usuário</div>
+          </div>
+
+          <!-- Navegação -->
+          <nav class="sidebar-nav">
+            <div class="nav-section">
+              <div class="nav-section-title">Menu Principal</div>
+              <ul class="nav-list">
+                <li class="nav-item">
+                  <a href="{% url 'cars_list' %}" class="nav-link">
+                    <span class="nav-icon">🚗</span>
+                    Ver Carros
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'new_car' %}" class="nav-link">
+                    <span class="nav-icon">➕</span>
+                    Cadastrar Carro
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+
+          <!-- Botão de Logout -->
+          <div class="logout-section">
+            <a href="{% url 'logout' %}" class="logout-btn">
+              <span class="nav-icon">🚪</span>
+              Sair
+            </a>
+          </div>
+        </aside>
+      {% endif %}
+
+      <!-- Conteúdo Principal -->
+      <div class="content {% if user.is_authenticated %}with-sidebar{% else %}no-sidebar{% endif %}">
+        <!-- Header superior para usuários não logados -->
+        <header class="top-header {% if user.is_authenticated %}hidden{% endif %}">
+          <div>
+            <strong>🚗 G1TECH Multimarcas</strong>
+          </div>
+          <nav class="top-nav">
+            <a href="{% url 'cars_list' %}">Carros</a>
+            <a href="{% url 'register' %}">Cadastre-se</a>
+            <a href="{% url 'login' %}">Entrar</a>
+          </nav>
+        </header>
+
+        <!-- Conteúdo das páginas -->
+        <main>{% block content %} {% endblock %}</main>
+
+        <!-- Footer -->
+        <footer>
+          <p>&copy; 2025 G1TECH Multimarcas</p>
+        </footer>
+      </div>
+
+      <!-- Botão mobile menu (apenas em telas pequenas) -->
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" style="display: none;">
+        ☰
+      </button>
+
+      <!-- Overlay para mobile -->
+      <div class="sidebar-overlay" onclick="closeMobileMenu()"></div>
+    </div>
+
+    <!-- JavaScript básico apenas para mobile menu -->
+    <script>
+      // Mostrar botão mobile apenas em telas pequenas
+      function checkScreenSize() {
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        if (window.innerWidth <= 768 && document.querySelector('.sidebar')) {
+          mobileBtn.style.display = 'block';
+        } else {
+          mobileBtn.style.display = 'none';
+        }
+      }
+
+      function toggleMobileMenu() {
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.querySelector('.sidebar-overlay');
+        
+        if (sidebar.classList.contains('mobile-open')) {
+          closeMobileMenu();
+        } else {
+          sidebar.classList.add('mobile-open');
+          overlay.classList.add('active');
+        }
+      }
+
+      function closeMobileMenu() {
+        const sidebar = document.querySelector('.sidebar');
+        const overlay = document.querySelector('.sidebar-overlay');
+        sidebar.classList.remove('mobile-open');
+        overlay.classList.remove('active');
+      }
+
+      // Verificar tamanho da tela ao carregar e redimensionar
+      window.addEventListener('load', checkScreenSize);
+      window.addEventListener('resize', checkScreenSize);
+    </script>
+  </body>
+</html>
