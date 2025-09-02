@@ -10,7 +10,7 @@ if not api_key:
 client = Mistral(api_key=api_key)
 
 def get_car_ai_bio(brand, year, model_name):
-    prompt = f"Escreva uma biografia para um carro da marca {brand}, ano {year}, modelo {model_name}, em apenas 250 caracteres."
+    prompt = f"Escreva uma biografia sempre em português brasileiro para um carro da marca {brand}, ano {year}, modelo {model_name}, em apenas 250 caracteres."
 
     response = client.chat.complete(
         model=model,
