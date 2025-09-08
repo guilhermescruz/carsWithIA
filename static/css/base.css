@@ -29,6 +29,7 @@
   /* Outros */
   --transition: all 0.3s ease;
   --radius: 6px;
+  --sidebar-width: 250px;
 }
 
 /* Layout básico */
@@ -49,11 +50,12 @@ body {
 .main-container {
   display: flex;
   width: 100%;
+  position: relative;
 }
 
-/* Menu lateral */
+/* Menu lateral - Desktop */
 .sidebar {
-  width: 250px;
+  width: var(--sidebar-width);
   background: linear-gradient(180deg, var(--color-primary), var(--color-primary-dark));
   color: var(--color-white);
   position: fixed;
@@ -206,6 +208,29 @@ body {
   transform: translateY(-2px);
 }
 
+/* Botão mobile menu */
+.mobile-menu-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1002;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border: none;
+  padding: 12px;
+  border-radius: var(--radius);
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: var(--transition);
+  display: none;
+}
+
+.mobile-menu-btn:hover {
+  background-color: var(--color-primary-dark);
+  transform: scale(1.05);
+}
+
 /* Conteúdo principal */
 .content {
   flex: 1;
@@ -271,48 +296,6 @@ footer {
   text-align: center;
 }
 
-/* Responsividade - Mobile */
-@media (max-width: 768px) {
-  .sidebar {
-    width: 100%;
-    left: -100%;
-    transition: left 0.3s ease;
-  }
-  
-  .sidebar:hover {
-    left: 0;
-  }
-  
-  .sidebar::before {
-    content: "☰";
-    position: fixed;
-    left: 10px;
-    top: 15px;
-    z-index: 1001;
-    background-color: var(--color-primary);
-    color: var(--color-white);
-    padding: 10px;
-    border-radius: 4px;
-    font-size: 1.2rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .content,
-  .content.with-sidebar,
-  .content.no-sidebar {
-    margin-left: 0;
-    width: 100%;
-  }
-  
-  main {
-    padding: 80px 20px 20px;
-  }
-  
-  .content.no-sidebar main {
-    padding: 30px 20px 20px;
-  }
-}
-
 /* Overlay para mobile */
 .sidebar-overlay {
   position: fixed;
@@ -322,15 +305,174 @@ footer {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
-  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .sidebar-overlay.active {
-  display: block;
+  opacity: 1;
+  visibility: visible;
 }
 
-@media (max-width: 768px) {
-  .top-header {
-    padding: 10px 60px 10px 20px;
+/* Responsividade - Tablet */
+@media (max-width: 1024px) {
+  .sidebar {
+    left: -220px;
+  }
+  
+  .content,
+  .content.with-sidebar {
+    margin-left: 30px;
   }
 }
+
+/* Responsividade - Mobile */
+@media (max-width: 768px) {
+  /* Mostrar botão mobile */
+  .mobile-menu-btn {
+    display: block !important;
+  }
+  
+  /* Sidebar mobile */
+  .sidebar {
+    width: 280px;
+    left: -280px;
+    transition: left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .sidebar.mobile-open {
+    left: 0;
+  }
+  
+  /* Remover hover behavior em mobile */
+  .sidebar:hover {
+    left: -280px;
+  }
+  
+  .sidebar.mobile-open:hover {
+    left: 0;
+  }
+  
+  /* Esconder ícone hamburguer do sidebar em mobile */
+  .sidebar::before {
+    display: none;
+  }
+  
+  /* Conteúdo mobile */
+  .content,
+  .content.with-sidebar,
+  .content.no-sidebar {
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  /* Header mobile para usuários não logados */
+  .top-header {
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .top-nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .top-nav a {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
+  
+  /* Main content mobile */
+  main {
+    padding: 20px 15px;
+  }
+  
+  /* Ajustar padding quando usuário logado */
+  .content.with-sidebar main {
+    padding-top: 80px;
+  }
+  
+  /* Footer mobile */
+  footer {
+    padding: 20px 15px;
+    font-size: 0.9rem;
+  }
+  
+  /* Sidebar adjustments for mobile */
+  .sidebar-header {
+    padding: 25px 20px 20px;
+  }
+  
+  .user-greeting {
+    margin: 0 15px 25px;
+  }
+  
+  .nav-link {
+    padding: 15px 20px;
+    font-size: 0.95rem;
+  }
+  
+  .nav-link:hover {
+    padding-left: 20px;
+    background-color: var(--color-hover);
+  }
+  
+  .logout-section {
+    bottom: 25px;
+  }
+}
+
+/* Mobile muito pequeno */
+@media (max-width: 480px) {
+  .sidebar {
+    width: 100vw;
+    left: -100vw;
+  }
+  
+  .sidebar.mobile-open {
+    left: 0;
+  }
+  
+  .sidebar:hover {
+    left: -100vw;
+  }
+  
+  .sidebar.mobile-open:hover {
+    left: 0;
+  }
+  
+  main {
+    padding: 15px 10px;
+  }
+  
+  .content.with-sidebar main {
+    padding-top: 70px;
+  }
+  
+  .top-header {
+    padding: 12px 15px;
+  }
+  
+  .mobile-menu-btn {
+    top: 12px;
+    left: 12px;
+    padding: 10px;
+    font-size: 1.1rem;
+  }
+}
+
+/* Animações e melhorias visuais */
+@media (prefers-reduced-motion: no-preference) {
+  .sidebar,
+  .content,
+  .sidebar-overlay {
+    transition-duration: 0.3s;
+    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+}
+
+/* Fim do CSS */

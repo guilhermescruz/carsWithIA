@@ -15,9 +15,16 @@
   <body>
     <div class="main-container">
       
+      <!-- Botão Mobile Menu (apenas para usuários logados em mobile) -->
+      {% if user.is_authenticated %}
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Abrir menu">
+          ☰
+        </button>
+      {% endif %}
+      
       <!-- Menu Lateral -->
       {% if user.is_authenticated %}
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
           <!-- Header do Sidebar -->
           <div class="sidebar-header">
             <h2>🚗 G1TECH</h2>
@@ -36,13 +43,13 @@
               <div class="nav-section-title">Menu Principal</div>
               <ul class="nav-list">
                 <li class="nav-item">
-                  <a href="{% url 'cars_list' %}" class="nav-link">
+                  <a href="{% url 'cars_list' %}" class="nav-link" onclick="closeMobileMenu()">
                     <span class="nav-icon">🚗</span>
                     Ver Carros
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="{% url 'new_car' %}" class="nav-link">
+                  <a href="{% url 'new_car' %}" class="nav-link" onclick="closeMobileMenu()">
                     <span class="nav-icon">➕</span>
                     Cadastrar Carro
                   </a>
@@ -53,7 +60,7 @@
 
           <!-- Botão de Logout -->
           <div class="logout-section">
-            <a href="{% url 'logout' %}" class="logout-btn">
+            <a href="{% url 'logout' %}" class="logout-btn" onclick="closeMobileMenu()">
               <span class="nav-icon">🚪</span>
               Sair
             </a>
@@ -84,49 +91,161 @@
         </footer>
       </div>
 
-      <!-- Botão mobile menu (apenas em telas pequenas) -->
-      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" style="display: none;">
-        ☰
-      </button>
-
       <!-- Overlay para mobile -->
       <div class="sidebar-overlay" onclick="closeMobileMenu()"></div>
     </div>
 
-    <!-- JavaScript básico apenas para mobile menu -->
+    <!-- JavaScript aprimorado para mobile -->
     <script>
-      // Mostrar botão mobile apenas em telas pequenas
+      // Variáveis globais
+      let isMobile = false;
+      let sidebar = null;
+      let overlay = null;
+      let mobileBtn = null;
+
+      // Inicialização
+      document.addEventListener('DOMContentLoaded', function() {
+        sidebar = document.getElementById('sidebar');
+        overlay = document.querySelector('.sidebar-overlay');
+        mobileBtn = document.querySelector('.mobile-menu-btn');
+        
+        checkScreenSize();
+        
+        // Event listeners
+        window.addEventListener('resize', debounce(checkScreenSize, 250));
+        
+        // Fechar menu ao pressionar ESC
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && isMobile && sidebar && sidebar.classList.contains('mobile-open')) {
+            closeMobileMenu();
+          }
+        });
+        
+        // Prevenir scroll do body quando menu mobile está aberto
+        if (sidebar) {
+          sidebar.addEventListener('transitionstart', function() {
+            if (isMobile && sidebar.classList.contains('mobile-open')) {
+              document.body.style.overflow = 'hidden';
+            }
+          });
+          
+          sidebar.addEventListener('transitionend', function() {
+            if (isMobile && !sidebar.classList.contains('mobile-open')) {
+              document.body.style.overflow = '';
+            }
+          });
+        }
+      });
+
+      // Verificar tamanho da tela e ajustar comportamento
       function checkScreenSize() {
-        const mobileBtn = document.querySelector('.mobile-menu-btn');
-        if (window.innerWidth <= 768 && document.querySelector('.sidebar')) {
-          mobileBtn.style.display = 'block';
-        } else {
-          mobileBtn.style.display = 'none';
+        const wasMobile = isMobile;
+        isMobile = window.innerWidth <= 768;
+        
+        if (mobileBtn) {
+          mobileBtn.style.display = isMobile && sidebar ? 'block' : 'none';
+        }
+        
+        // Se mudou de mobile para desktop, fechar menu mobile
+        if (wasMobile && !isMobile && sidebar) {
+          closeMobileMenu();
+        }
+        
+        // Se mudou de desktop para mobile, remover hover states
+        if (!wasMobile && isMobile && sidebar) {
+          sidebar.style.left = '';
         }
       }
 
+      // Toggle do menu mobile
       function toggleMobileMenu() {
-        const sidebar = document.querySelector('.sidebar');
-        const overlay = document.querySelector('.sidebar-overlay');
+        if (!sidebar || !isMobile) return;
         
-        if (sidebar.classList.contains('mobile-open')) {
+        const isOpen = sidebar.classList.contains('mobile-open');
+        
+        if (isOpen) {
           closeMobileMenu();
         } else {
-          sidebar.classList.add('mobile-open');
-          overlay.classList.add('active');
+          openMobileMenu();
+        }
+      }
+      
+      // Abrir menu mobile
+      function openMobileMenu() {
+        if (!sidebar || !overlay || !isMobile) return;
+        
+        sidebar.classList.add('mobile-open');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        // Focus management para acessibilidade
+        const firstLink = sidebar.querySelector('.nav-link');
+        if (firstLink) {
+          setTimeout(() => firstLink.focus(), 300);
         }
       }
 
+      // Fechar menu mobile
       function closeMobileMenu() {
-        const sidebar = document.querySelector('.sidebar');
-        const overlay = document.querySelector('.sidebar-overlay');
+        if (!sidebar || !overlay) return;
+        
         sidebar.classList.remove('mobile-open');
         overlay.classList.remove('active');
+        document.body.style.overflow = '';
+        
+        // Retornar focus para o botão do menu
+        if (mobileBtn && isMobile) {
+          mobileBtn.focus();
+        }
       }
 
-      // Verificar tamanho da tela ao carregar e redimensionar
-      window.addEventListener('load', checkScreenSize);
-      window.addEventListener('resize', checkScreenSize);
+      // Função debounce para otimizar resize
+      function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+        };
+      }
+
+      // Touch gestures para mobile (opcional - deslizar para fechar)
+      if ('ontouchstart' in window) {
+        let startX = 0;
+        let startY = 0;
+        let isSwipe = false;
+        
+        document.addEventListener('touchstart', function(e) {
+          if (!isMobile || !sidebar || !sidebar.classList.contains('mobile-open')) return;
+          
+          startX = e.touches[0].clientX;
+          startY = e.touches[0].clientY;
+          isSwipe = false;
+        }, { passive: true });
+        
+        document.addEventListener('touchmove', function(e) {
+          if (!isMobile || !sidebar || !sidebar.classList.contains('mobile-open')) return;
+          
+          const currentX = e.touches[0].clientX;
+          const currentY = e.touches[0].clientY;
+          const diffX = startX - currentX;
+          const diffY = Math.abs(startY - currentY);
+          
+          // Se o movimento for principalmente horizontal para a esquerda
+          if (diffX > 50 && diffY < 100) {
+            isSwipe = true;
+          }
+        }, { passive: true });
+        
+        document.addEventListener('touchend', function(e) {
+          if (!isMobile || !sidebar || !sidebar.classList.contains('mobile-open') || !isSwipe) return;
+          
+          closeMobileMenu();
+        }, { passive: true });
+      }
     </script>
   </body>
 </html>
