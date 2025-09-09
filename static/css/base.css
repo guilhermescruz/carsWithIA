@@ -108,6 +108,8 @@ body {
 /* Menu de navegação */
 .sidebar-nav {
   padding: 20px 0;
+  /* Ajuste para dar espaço ao botão de logout em mobile */
+  padding-bottom: 100px;
 }
 
 .nav-section {
@@ -421,8 +423,27 @@ footer {
     background-color: var(--color-hover);
   }
   
+  /* MELHORIAS PARA O BOTÃO DE LOGOUT NO MOBILE */
   .logout-section {
-    bottom: 25px;
+    bottom: 20px;
+    padding: 0 20px; /* Mais padding lateral */
+  }
+  
+  .logout-btn {
+    padding: 14px 16px; /* Botão mais alto e confortável */
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 8px; /* Bordas mais arredondadas */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Sombra sutil */
+  }
+  
+  .logout-btn:hover {
+    transform: translateY(-1px); /* Menor movimento no hover */
+  }
+  
+  /* Garantir que o nav não sobreponha o botão */
+  .sidebar-nav {
+    padding-bottom: 120px; /* Mais espaço para o botão */
   }
 }
 
@@ -462,6 +483,49 @@ footer {
     left: 12px;
     padding: 10px;
     font-size: 1.1rem;
+  }
+  
+  /* OTIMIZAÇÕES ESPECÍFICAS PARA TELAS MUITO PEQUENAS */
+  .logout-section {
+    bottom: 15px; /* Mais próximo da borda inferior */
+    padding: 0 15px; /* Padding ajustado */
+  }
+  
+  .logout-btn {
+    padding: 16px 20px; /* Botão ainda mais confortável */
+    font-size: 1rem; /* Texto um pouco maior */
+    min-height: 48px; /* Altura mínima para acessibilidade */
+    border-radius: 12px; /* Bordas mais arredondadas */
+  }
+  
+  /* Garantir scroll suave se necessário */
+  .sidebar {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Ajustar espaçamento do nav */
+  .sidebar-nav {
+    padding-bottom: 140px; /* Ainda mais espaço */
+  }
+  
+  /* Melhorar a área de toque */
+  .nav-link {
+    min-height: 48px; /* Altura mínima para toque */
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* Melhorias específicas para a experiência de toque */
+@media (max-width: 768px) and (hover: none) {
+  .logout-btn:active {
+    background-color: var(--color-danger);
+    transform: scale(0.98);
+  }
+  
+  .nav-link:active {
+    background-color: var(--color-active);
   }
 }
 
