@@ -6,6 +6,21 @@ class CarModelForm(forms.ModelForm):
     class Meta:
         model = Car
         fields = '__all__'
+        widgets = {
+            'bio': forms.Textarea(attrs={
+                'rows': 4, 
+                'placeholder': 'Descreva as características do veículo...',
+                'class': 'form-control'
+            }),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Torna o campo bio opcional
+        if 'bio' in self.fields:
+            self.fields['bio'].required = False
+            self.fields['bio'].help_text = 'Deixe em branco para gerar automaticamente'
+
 
     def clean_value(self):
         value = self.cleaned_data['value']#captura os dados de valor do formulário 

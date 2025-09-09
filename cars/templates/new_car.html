@@ -59,14 +59,15 @@
           {{ form.photo }}
         </div>
         
-        <!-- Se houver campo de descrição, adicione aqui -->
-        {% comment %}
         <div class="form-group">
-          {{ form.description.errors }}
-          <label for="id_description">Descrição:</label>
-          {{ form.description }}
+          {{ form.bio.errors }}
+          <label for="id_bio">Bio/Descrição (Opcional):</label>
+          {{ form.bio }}
+          <small class="form-help-text">
+            Deixe em branco para que uma descrição seja gerada automaticamente com base nos dados do veículo.
+          </small>
         </div>
-        {% endcomment %}
+       
         
         <div class="form-buttons">
           <a href="{% url 'cars_list' %}" class="btn-secondary">Cancelar</a>
