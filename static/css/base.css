@@ -487,8 +487,10 @@ footer {
   
   /* OTIMIZAÇÕES ESPECÍFICAS PARA TELAS MUITO PEQUENAS */
   .logout-section {
-    bottom: 15px; /* Mais próximo da borda inferior */
-    padding: 0 15px; /* Padding ajustado */
+    position: sticky;
+    bottom: 0;
+    padding: 15px; /* Padding ajustado */
+    background: linear-gradient(to top, var(--color-primary-dark) 0%, var(--color-primary-dark) 80%, transparent 100%);
   }
   
   .logout-btn {
@@ -502,11 +504,16 @@ footer {
   .sidebar {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    display: flex;
+    flex-direction: column;
   }
   
   /* Ajustar espaçamento do nav */
   .sidebar-nav {
-    padding-bottom: 140px; /* Ainda mais espaço */
+    padding-bottom: 20px; /* Menos espaço já que é sticky */
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
   
   /* Melhorar a área de toque */
