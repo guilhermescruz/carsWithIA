@@ -547,3 +547,71 @@ footer {
 }
 
 /* Fim do CSS */
+
+/* OTIMIZAÇÕES ESPECÍFICAS PARA ANDROID E POCO X6 PRO */
+@supports (height: 100dvh) {
+  .sidebar {
+    height: 100dvh !important;
+  }
+}
+
+/* Fallback para dispositivos Android sem suporte a dvh */
+@media screen and (max-width: 768px) and (-webkit-min-device-pixel-ratio: 1) {
+  .sidebar {
+    height: calc(100vh - 60px); /* Compensa barras do Android */
+    max-height: calc(100vh - 60px);
+  }
+  
+  .logout-section {
+    bottom: 0 !important;
+    padding-bottom: 25px !important; /* Força mais espaço no Android */
+  }
+}
+
+/* Específico para telas altas como Poco X6 Pro */
+@media screen and (min-height: 800px) and (max-width: 480px) {
+  .logout-section {
+    padding-bottom: calc(25px + env(safe-area-inset-bottom, 20px)) !important;
+    min-height: 80px !important; /* Área mínima do botão */
+  }
+  
+  .logout-btn {
+    margin-bottom: 10px;
+  }
+}
+
+/* Para dispositivos com barra de navegação gestual do Android */
+@media screen and (max-width: 768px) {
+  .sidebar {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  
+  .logout-section {
+    background: linear-gradient(to top, var(--color-primary-dark) 0%, var(--color-primary-dark) 95%, transparent 100%) !important;
+  }
+}
+
+/* SOLUÇÃO FINAL PARA GARANTIR VISIBILIDADE EM TODOS OS DISPOSITIVOS MOBILE */
+@media screen and (max-width: 768px) {
+  /* Forçar botão sempre visível quando sidebar aberta */
+  .sidebar.mobile-open .logout-section,
+  .sidebar:not(.sidebar.mobile-open):hover .logout-section {
+    display: block !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    visibility: visible !important;
+  }
+  
+  /* Fallback para casos extremos */
+  .logout-section {
+    display: block !important;
+  }
+  
+  .sidebar.mobile-open .logout-section {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    z-index: 9999 !important;
+  }
+}
