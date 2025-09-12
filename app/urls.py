@@ -17,7 +17,7 @@ urlpatterns = [
     path('car/<int:pk>/delete/', CarDeleteView.as_view(), name='car_delete'),
 ]
 
-
 if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    # Para desenvolvimento - serve arquivos estáticos e media
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.BASE_DIR)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
